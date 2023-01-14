@@ -30,7 +30,10 @@ class Validator{
         "enum" => "{field} is invalid.",
         "equals" => "{field} does not match.",
         "must_contain" => "{field} must contains {chars}.",
-        "match" => "{fiels} is invalid."
+        "match" => "{field} is invalid.",
+        "date" => "Date is invalid.",
+        "date_after" => "{field} date is not valid.",
+        "date_before" => "{field} date is not valid.",
     ];
 
     /**
@@ -249,6 +252,51 @@ class Validator{
     function equals($value){
         if($this->next && $this->exists() && !$this->data[$this->current_field] == $value){
             $this->add_error_message('equals');
+            $this->next = false;
+        }
+        return $this;
+    }
+
+    /**
+     * date - Check if the value is a valid date.
+     * 
+     * @param mixed $format - format of the date. (ex. Y-m-d) Check out https://www.php.net/manual/en/datetime.format.php for more.
+     * @return this
+     */
+    function date($format = 'Y-m-d'){
+        if($this->next && $this->exists()){
+            $dateTime = DateTime::createFromFormat($format, $this->data[$this->current_field]);
+            if(!($dateTime && $dateTime->format($format) == $this->data[$this->current_field])){
+                $this->add_error_message('date');
+                $this->next = false;
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * date_after - Check if the date appeared after the specified date.
+     * 
+     * @param mixed $date - Use format Y-m-d (ex. 2023-01-15).
+     * @return this
+     */
+    function date_after($date){
+        if($this->next && $this->exists() && strtotime($date) >= strtotime($this->data[$this->current_field])){
+            $this->add_error_message('date_after');
+            $this->next = false;
+        }
+        return $this;
+    }
+
+    /**
+     * date_before - Check if the date appeared before the specified date.
+     * 
+     * @param mixed $date - Use format Y-m-d (ex. 2023-01-15).
+     * @return this
+     */
+    function date_before($date){
+        if($this->next && $this->exists() && strtotime($date) <= strtotime($this->data[$this->current_field])){
+            $this->add_error_message('date_before');
             $this->next = false;
         }
         return $this;

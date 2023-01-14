@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set("Asia/Kolkata");
+
 // Include the class file
 require "Validator.php";
 
@@ -10,7 +12,8 @@ $data = [
     "password" => "pass@123",
     "confirm_password" => "pass@123",
     "sex" => "male",
-    "phone" => "1236547895"
+    "phone" => "1236547895",
+    "dob" => "1998-07-11"
 ];
 
 // Create a instance
@@ -24,6 +27,7 @@ $v->field('password')->required()->min_len(8)->max_len(16)->must_contain('@#$&')
 $v->field('confirm_password')->required()->equals($data['password']);
 $v->field('sex')->enum(['male', 'female', 'others']);
 $v->field('phone')->numeric()->min_len(10)->max_len(10);
+$v->field('dob')->date()->date_after('1998-01-01')->date_before('2002-12-31');
 
 // Check if data is valid
 if(!$v->is_valid()){

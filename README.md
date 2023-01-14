@@ -24,7 +24,8 @@ $data = [
     "password" => "pass@123",
     "confirm_password" => "pass@123",
     "sex" => "male",
-    "phone" => "1236547895"
+    "phone" => "1236547895",
+    "dob" => "1998-07-11"
 ];
 ```
 
@@ -44,6 +45,7 @@ $v->field('password')->required()->min_len(8)->max_len(16)->must_contain('@#$&')
 $v->field('confirm_password')->required()->equals($data['password']);
 $v->field('sex')->enum(['male', 'female', 'others']);
 $v->field('phone')->numeric()->min_len(10)->max_len(10);
+$v->field('dob')->date()->date_after('1998-01-01')->date_before('2002-12-31');
 ```
 Make sure to run the field method on start of every method chain.
 
@@ -81,12 +83,16 @@ Here is a list of the validators currently available.
 | `min_val(int $val)` | Check if the value of intiger/number is not smaller than the limit. <br/> param *int* `$val` - Min value of the number. |
 | `enum(arr $list)` | Check if the value is in the list. <br/>  param *array* `$list` - List of valid values. |
 | `equals(mix $value)` | Check if the value is equal. <br/> param *mixed* `$value` - Value to match equal. |
+| `date(string $date)` | Check if the value is a valid date. <br/> param *string* `$format` - Format of the date. (ex. Y-m-d) Check out [PHP Manual](https://www.php.net/manual/en/datetime.format.php) for more. |
+| `date_after(string $date)` | Check if the date appeared after the specified date. <br/> param *string* `$date` - Use format Y-m-d (ex. 2023-01-15). |
+| `date_before(string $date)` | Check if the date appeared before the specified date. <br/> param *string* `$date` - Use format Y-m-d (ex. 2023-01-15). |
 | `must_contain(str $chars)` | Check if the value must contains some charectors. <br/> param *string* `$chars` - Set of chars in one string. Ex. "@#&abc123"|
 | `match(str $pattern)` | Check if the value matchs a pattern. <br/> param *string* `$patarn` - Rejex pattern to match. |
 
 ## More
 - You can change default error response messages on `Validator.php` at line `20`.
 - For the pattern of `match()` method, check out [PHP Manual](https://www.php.net/manual/en/function.preg-match.php) and [W3Schools](https://www.w3schools.com/php/php_regex.asp).
+- To know more about date formats, check out [PHP Manual](https://www.php.net/manual/en/datetime.format.php).
 
 ## LICENSE
 [MIT License](LICENSE)
