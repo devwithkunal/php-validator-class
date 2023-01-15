@@ -1,7 +1,10 @@
-# PHP Validator Class `v1.0`
+# PHP Validator Class
 This is a simple PHP Validator Class. It requires no dependencies. Fork it and have fun with it.
 
 It's a standalone single file PHP class to use on your projects. It requires no dependencies or no framework.
+
+## What's New
+- **Date validation** - Validate date format and date range
 
 ## How To Use
 You only need only one file:
