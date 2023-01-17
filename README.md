@@ -45,7 +45,7 @@ $v->field('password')->required()->min_len(8)->max_len(16)->must_contain('@#$&')
 $v->field('confirm_password')->required()->equals($data['password']);
 $v->field('sex')->enum(['male', 'female', 'others']);
 $v->field('phone')->numeric()->min_len(10)->max_len(10);
-$v->field('dob')->date()->date_after('1998-01-01')->date_before('2002-12-31');
+$v->field('dob', 'date of birth')->date()->date_after('1998-01-01')->date_before('2002-12-31');
 ```
 Make sure to run the field method on start of every method chain.
 
@@ -65,8 +65,9 @@ if(!$v->is_valid()){
 Some methods to use
 | Methods | Return | Description |
 |--------|--------|-------------|
+| `field(str $name, str? $alias)` | $this | Set the field name to start validation. <br/> param *string* `$name` - Name of the field/key as on data to validate. <br/> param *string* `$alias` - (optional) Alias use on error messages instead of field name. |
 | `set_response_messages(arr $messages)` | void | Function to set/extend custom error. <br /> Use associative array of messages as the parameter. See the messages format on `Validator.php` file at line `20`.
-| is_valid() | boolean | Check if all validations are successfull.
+| `is_valid()` | boolean | Check if all validations are successfull.
 
 Here is a list of the validators currently available.
 
