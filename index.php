@@ -27,7 +27,7 @@ $v->field('password')->required()->min_len(8)->max_len(16)->must_contain('@#$&')
 $v->field('confirm_password')->required()->equals($data['password']);
 $v->field('sex')->enum(['male', 'female', 'others']);
 $v->field('phone')->numeric()->min_len(10)->max_len(10);
-$v->field('dob')->date()->date_after('1998-01-01')->date_before('2002-12-31');
+$v->field('dob', 'date of birth')->date()->date_after('1998-01-01')->date_before('2002-12-31');
 
 // Check if data is valid
 if(!$v->is_valid()){

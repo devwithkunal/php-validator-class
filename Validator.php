@@ -13,6 +13,11 @@ class Validator{
     private $current_field;
 
     /**
+     * @var string $current_alias - Alias use on error messages instead of field name.
+     */
+    private $current_alias;
+
+    /**
      * @var array $response_messages - Error messages to show user.
      * 
      * You can change messages from here. User "{field}" to refer the field name.
@@ -22,7 +27,7 @@ class Validator{
         "alpha" => "{field} must contains alphabatic charectors only.",
         "alpha_num" => "{field} must contains alphabatic charectors & numbers only.",
         "numeric" => "{field} must contains numbers only.",
-        "email" => "Invalid email address",
+        "email" => "{field} is invalid.",
         "max_len" => "{field} is too long.",
         "min_len" => "{field} is too short.",
         "max_val" => "{field} is too high.",
@@ -31,7 +36,7 @@ class Validator{
         "equals" => "{field} does not match.",
         "must_contain" => "{field} must contains {chars}.",
         "match" => "{field} is invalid.",
-        "date" => "Date is invalid.",
+        "date" => "{field} is invalid.",
         "date_after" => "{field} date is not valid.",
         "date_before" => "{field} date is not valid.",
     ];
@@ -63,7 +68,8 @@ class Validator{
      * @return void
      */
     private function add_error_message($type, $others = []){
-        $msg = str_replace('{field}', ucfirst($this->current_field), $this->response_messages[$type]);
+        $field_name = $this->current_alias ? ucfirst($this->current_alias) : ucfirst($this->current_field);
+        $msg = str_replace('{field}', $field_name, $this->response_messages[$type]);
         foreach($others as $key => $val){
             $msg = str_replace('{'.$key.'}', $val, $msg);
         }
@@ -98,11 +104,13 @@ class Validator{
      * field - Set the field name to start validation.
      * 
      * @param string $name - Name of the field/key as on data to validate.
+     * @param string $alias - (optional) Alias use on error messages instead of field name.
      * @return this
      */
-    function field($name){
+    function field($name, $alias = null){
         $this->current_field = $name;
         $this->next = true;
+        $this->current_alias = $alias;
         return $this;
     }
     
