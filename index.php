@@ -1,5 +1,4 @@
 <?php
-date_default_timezone_set("Asia/Kolkata");
 
 // Include the class file
 require "Validator.php";
