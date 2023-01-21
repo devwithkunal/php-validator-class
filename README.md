@@ -6,6 +6,7 @@ It's a standalone single file PHP class to use on your projects. It requires no 
 ## What's New
 - **Date validation** - Validate date format and date range
 - **Field alias** - Set alias on field names for error messages
+- **Error messages** - Generate error messages as associative array
 
 ## How To Use
 You only need only one file:

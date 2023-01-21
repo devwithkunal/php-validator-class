@@ -73,7 +73,7 @@ class Validator{
         foreach($others as $key => $val){
             $msg = str_replace('{'.$key.'}', $val, $msg);
         }
-        array_push($this->error_messages, $msg);
+        $this->error_messages[$this->current_field] = $msg;
     }
     
     /**
